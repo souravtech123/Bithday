@@ -285,6 +285,105 @@
             animation: fadeInUp 1s ease-out 0.9s both, wiggle 2s ease-in-out 2s infinite;
         }
 
+        .love-questions {
+            margin: 2rem 0;
+            animation: fadeInUp 1s ease-out 1.2s both;
+        }
+
+        .questions-title {
+            font-size: 1.5rem;
+            color: #d63384;
+            margin-bottom: 1.5rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            animation: titlePulse 3s ease-in-out infinite alternate;
+        }
+
+        .question-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .question-card {
+            background: linear-gradient(135deg, #fff0f5, #ffe4e6);
+            border: 2px solid #ffb6c1;
+            border-radius: 15px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .question-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 182, 193, 0.4);
+            border-color: #ff69b4;
+        }
+
+        .question {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #d63384;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .answer {
+            font-size: 1rem;
+            color: #495057;
+            text-align: center;
+            font-style: italic;
+            transition: all 0.5s ease;
+            transform: translateY(0);
+        }
+
+        .answer.hidden {
+            opacity: 0;
+            transform: translateY(-20px);
+            height: 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .answer.revealed {
+            opacity: 1;
+            transform: translateY(0);
+            height: auto;
+            margin-top: 0.5rem;
+            animation: heartBeat 0.8s ease-in-out;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            25% {
+                transform: scale(1.05);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            75% {
+                transform: scale(1.05);
+            }
+        }
+
+        .question-card.revealed {
+            background: linear-gradient(135deg, #ffe4e6, #ffd0dc);
+            border-color: #ff1493;
+        }
+
+        .question-card.revealed::before {
+            content: '💖';
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.2rem;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
         @media (max-width: 768px) {
             .birthday-card {
                 padding: 2rem;
@@ -340,12 +439,49 @@
     </div>
    </div>
    <div class="birthday-card">
-    <h1 class="main-title" id="main-title">Happy Birthday Tanya Raj!</h1>
+    <h1 class="main-title" id="main-title">Happy Birthday Love!</h1>
     <p class="subtitle" id="subtitle">My Love of My Life</p>
     <div class="celebration-emojis"><span class="sparkle">🎉</span> <span class="sparkle">🎂</span> <span class="sparkle">🎈</span> <span class="sparkle">🌹</span> <span class="sparkle">✨</span>
     </div>
     <div class="birthday-message" id="birthday-message">
      Happy Birthday Tanya! You are the most special person in my life. Your smile makes me so happy every day. I hope all your dreams come true because you deserve the best things in life. May this new year bring you lots of love, joy, and beautiful moments. You mean everything to me! 🎂💕
+    </div>
+    <div class="love-questions">
+     <h3 class="questions-title">💕 Love Questions for You 💕</h3>
+     <div class="question-cards">
+      <div class="question-card" onclick="revealAnswer(this)">
+       <div class="question">
+        What do I love most about you? 💖
+       </div>
+       <div class="answer hidden">
+        Your beautiful smile that lights up my whole world! ✨
+       </div>
+      </div>
+      <div class="question-card" onclick="revealAnswer(this)">
+       <div class="question">
+        How much do I love you? 💕
+       </div>
+       <div class="answer hidden">
+        More than all the stars in the sky! 🌟
+       </div>
+      </div>
+      <div class="question-card" onclick="revealAnswer(this)">
+       <div class="question">
+        What's my favorite memory with you? 🥰
+       </div>
+       <div class="answer hidden">
+        Every single moment we spend together! 💫
+       </div>
+      </div>
+      <div class="question-card" onclick="revealAnswer(this)">
+       <div class="question">
+        What do you mean to me? 💝
+       </div>
+       <div class="answer hidden">
+        You are my everything, my heart, my soul! 💖
+       </div>
+      </div>
+     </div>
     </div>
     <div class="footer-message" id="footer-message">
      With all my love - Tanya ❤️
@@ -354,7 +490,7 @@
   </main>
   <script>
         const defaultConfig = {
-            main_title: "Happy Birthday Tanya Raj!",
+            main_title: "Happy Birthday Love!",
             subtitle: "My Love of My Life",
             birthday_message: "Happy Birthday Tanya! You are the most special person in my life. Your smile makes me so happy every day. I hope all your dreams come true because you deserve the best things in life. May this new year bring you lots of love, joy, and beautiful moments. You mean everything to me! 🎂💕",
             footer_text: "With all my love - Tanya ❤️",
@@ -459,6 +595,38 @@
             ]);
         }
 
+        // Love questions functionality
+        function revealAnswer(card) {
+            const answer = card.querySelector('.answer');
+            const isRevealed = answer.classList.contains('revealed');
+            
+            if (!isRevealed) {
+                answer.classList.remove('hidden');
+                answer.classList.add('revealed');
+                card.classList.add('revealed');
+                
+                // Add a little celebration effect
+                setTimeout(() => {
+                    const celebration = document.createElement('div');
+                    celebration.innerHTML = '💕';
+                    celebration.style.position = 'absolute';
+                    celebration.style.top = '50%';
+                    celebration.style.left = '50%';
+                    celebration.style.transform = 'translate(-50%, -50%)';
+                    celebration.style.fontSize = '2rem';
+                    celebration.style.pointerEvents = 'none';
+                    celebration.style.animation = 'sparkle 1s ease-out forwards';
+                    card.appendChild(celebration);
+                    
+                    setTimeout(() => {
+                        if (celebration.parentNode) {
+                            celebration.parentNode.removeChild(celebration);
+                        }
+                    }, 1000);
+                }, 100);
+            }
+        }
+
         // Initialize the SDK
         if (window.elementSdk) {
             window.elementSdk.init({
@@ -469,5 +637,5 @@
             });
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98f6dfce42328f9a',t:'MTc2MDYxMDU1Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98f6edfbc33f793d',t:'MTc2MDYxMTEzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
